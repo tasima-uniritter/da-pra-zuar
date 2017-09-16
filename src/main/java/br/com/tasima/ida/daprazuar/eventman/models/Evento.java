@@ -3,23 +3,24 @@ package br.com.tasima.ida.daprazuar.eventman.models;
 import java.util.Date;
 
 public class Evento {
-	String Nome;
-	Date Data;
+	
+	private String nome;
+	private Date data;
 	
 	public Evento() {
 		
 	}
 	
 	public Evento(String nome, Date data) {
-		Nome = nome;
-		Data = data;
+		this.nome = nome;
+		this.data = data;
 	}
 	
 	public String getNome() {
-		return Nome;
+		return this.nome;
 	}
 	
 	public Date getData() {
-		return Data;
+		return this.data;
 	}
 }
