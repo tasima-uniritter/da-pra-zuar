@@ -21,6 +21,9 @@ public class Evento {
 	@Column
 	private Date Data;
 	
+	public Evento() {
+	}
+	
 	public Evento(String nome, Date data) {
 		this.Nome = nome;
 	}
@@ -40,5 +43,5 @@ public class Evento {
 	public void setData(Date Data) {
 		this.Data = Data;
 	}
-	
+
 }
