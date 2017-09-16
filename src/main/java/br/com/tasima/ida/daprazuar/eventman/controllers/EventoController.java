@@ -1,7 +1,5 @@
 package br.com.tasima.ida.daprazuar.eventman.controllers;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -13,57 +11,60 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.tasima.ida.daprazuar.eventman.EventManApplication;
-import br.com.tasima.ida.daprazuar.eventman.MemoryStorage;
+import br.com.tasima.ida.daprazuar.eventman.exceptions.business.InvalidParameterException;
+import br.com.tasima.ida.daprazuar.eventman.exceptions.business.NotFoundException;
 import br.com.tasima.ida.daprazuar.eventman.models.Evento;
+import br.com.tasima.ida.daprazuar.eventman.services.EventoService;
 
 @RestController
 public class EventoController {
 
-	private MemoryStorage storage;
+	private EventoService service;
 	
 	public EventoController() {
-		storage = MemoryStorage.getInstance();
+		service = new EventoService();
 	}
 	
 	@RequestMapping(method=RequestMethod.GET, path="/eventos")
     public ResponseEntity<List<Evento>> GetAll() {    	
-        return ResponseEntity.ok(storage.eventos);
+        return ResponseEntity.ok(service.GetAll());
     }
 	
     @RequestMapping(method=RequestMethod.GET, path="/evento/{id}")
     public ResponseEntity<Evento> GetById(@PathVariable("id") int id) {
-    	if (id > storage.eventos.size()-1)
-    		return ResponseEntity.notFound().build();
-    	
-    	Evento ev = storage.eventos.get(id);
-        return ResponseEntity.ok(ev);
+    	try {
+    		Evento ev = service.Get(id);
+    		return ResponseEntity.ok(ev);
+    	} catch (NotFoundException e) {
+			return ResponseEntity.notFound().build();
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
     }
     
     @RequestMapping(method=RequestMethod.GET, path="/evento")
     public ResponseEntity<Evento> GetByNome(@RequestParam(value="nome") String nome) {
-    	Evento found = null;
-    	
-    	for (Evento e : storage.eventos) {
-			if (e.getNome().equalsIgnoreCase(nome)) {
-				found = e;
-				break;
-			}
-		}
-    	
-    	if (found != null) {
-    		return ResponseEntity.ok(found);
-    	} else {
+    	try {
+    		Evento ev = service.Get(nome);
+    		return ResponseEntity.ok(ev);
+    	} catch (NotFoundException e) {
     		return ResponseEntity.notFound().build();
-    	}
+    	} catch (InvalidParameterException e) {
+    		return ResponseEntity.badRequest().build();
+    	} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
     }
     
     @RequestMapping(method=RequestMethod.POST, path="/evento")
-    public HttpStatus Create(@RequestBody Evento evento) {
-    	if (evento == null)
-    		return HttpStatus.BAD_REQUEST;
-    	
-    	storage.eventos.add(evento);
-        return HttpStatus.OK;
+    public HttpStatus Create(@RequestBody Evento ev) {
+    	try {
+    		service.Create(ev);
+    		return HttpStatus.OK;
+    	} catch (InvalidParameterException e) {
+			return HttpStatus.BAD_REQUEST;
+		} catch (Exception e) {
+			return HttpStatus.INTERNAL_SERVER_ERROR;
+		}
     }
 }
