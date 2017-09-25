@@ -25,11 +25,11 @@ public class ApplicationTests {
 	private MockMvc mockMvc;
 
 	@Autowired
-	private PersonRepository personRepository;
+	private EventoRepository EventoRepository;
 
 	@Before
 	public void deleteAllBeforeTests() throws Exception {
-		personRepository.deleteAll();
+		EventoRepository.deleteAll();
 	}
 
 	@Test
