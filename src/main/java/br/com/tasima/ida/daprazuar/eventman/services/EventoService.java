@@ -2,28 +2,34 @@ package br.com.tasima.ida.daprazuar.eventman.services;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.tasima.ida.daprazuar.eventman.exceptions.business.InvalidParameterException;
 import br.com.tasima.ida.daprazuar.eventman.exceptions.business.NotFoundException;
 import br.com.tasima.ida.daprazuar.eventman.models.Evento;
 import br.com.tasima.ida.daprazuar.eventman.repositories.EventoRepository;
+import br.com.tasima.ida.daprazuar.eventman.repositories.EventoRepositoryImpl;
 
 @Service
 public class EventoService {
-
+//TODO: criar classe que implementa interface EventoRepository
+	// ex. Repositorio
+	private EventoRepositoryImpl repo;
+	@Autowired
 	private EventoRepository eventoRepo;
 	
 	public EventoService() {
-		eventoRepo = new EventoRepository();
+		
+		
 	}
 	
 	public List<Evento> GetAll() {
-		return eventoRepo.FindAll();
+		return (List<Evento>) eventoRepo.findAll();
 	}
 	
-	public Evento Get(int id) throws NotFoundException {
-		Evento ev = eventoRepo.Find(id);
+	public Evento Get(long id) throws NotFoundException {
+		Evento ev = eventoRepo.findOne(id);
 		
 		if (ev == null) {
 			throw new NotFoundException();
@@ -37,7 +43,7 @@ public class EventoService {
 			throw new InvalidParameterException();
 		}
 		
-		Evento ev = eventoRepo.Find(name);
+		Evento ev = eventoRepo.findByName(name);
 		
 		if (ev == null) {
 			throw new NotFoundException();
@@ -51,6 +57,6 @@ public class EventoService {
 			throw new InvalidParameterException();
 		}
 		
-		eventoRepo.Insert(ev);
+		eventoRepo.save(ev);
 	}
 }
