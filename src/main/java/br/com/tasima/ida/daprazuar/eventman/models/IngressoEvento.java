@@ -1,21 +1,46 @@
 package br.com.tasima.ida.daprazuar.eventman.models;
 
-public class IngressoEvento {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public abstract class IngressoEvento {
 	
-	private String tipo;
+	@Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+	private Long Id;
+	
+	@Column
+	private String Tipo;
+	
+	@Column
 	private int Valor;
 	
-	private String getTipo() {
-		return tipo;
+	public IngressoEvento() {
 	}
-	private void setTipo(String tipo) {
-		this.tipo = tipo;
+	
+	public IngressoEvento(String Tipo, int valor) {
+		this.Tipo = Tipo;
 	}
-	private int getValor() {
+	
+	public String getTipo() {
+		return Tipo;
+	}
+	
+	public void setTipo(String Tipo) {
+		this.Tipo = Tipo;
+	}
+	
+	public int getValor() {
 		return Valor;
 	}
-	private void setValor(int valor) {
-		Valor = valor;
+	
+	public void setValor(int Valor) {
+		this.Valor = Valor;
+		
 	}
 
 }
