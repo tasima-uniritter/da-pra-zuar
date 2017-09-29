@@ -15,7 +15,7 @@ import br.com.tasima.ida.daprazuar.eventman.models.Evento;
 @Repository
 public class EventoRepository {
 
-//	private MemoryStorage memStorage;
+	//private MemoryStorage memStorage;
 	NamedParameterJdbcTemplate jdbcTemplate;
 	
 	public EventoRepository() {
