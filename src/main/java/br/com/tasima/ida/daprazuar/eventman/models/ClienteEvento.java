@@ -25,25 +25,36 @@ public class ClienteEvento {
 	
 	public ClienteEvento(String Nome, String Email, String Telefone) {
 		this.Nome = Nome;
+		this.Email = Email;
+		this.Telefone = Telefone;
 	}
 	
-	private String getNome() {
+	public ClienteEvento(Long id,String Nome, String Email, String Telefone) {
+		this(Nome,Email,Telefone);
+		this.Id = id;
+	}
+	
+	public String getNome() {
 		return Nome;
 	}
-	private void setNome(String Nome) {
+	
+	public void setNome(String Nome) {
 		this.Nome = Nome;
 	}
 	
-	private String getEmail() {
+	public String getEmail() {
 		return Email;
 	}
-	private void setEmail(String Email) {
+	
+	public void setEmail(String Email) {
 		this.Email = Email;
 	}
-	private String getTelefone() {
+	
+	public String getTelefone() {
 		return Telefone;
 	}
-	private void setTelefone(String Telefone) {
+	
+	public void setTelefone(String Telefone) {
 		this.Telefone = Telefone;
 	}
     

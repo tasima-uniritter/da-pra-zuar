@@ -1,19 +1,17 @@
 package br.com.tasima.ida.daprazuar.eventman.models;
 
-import javax.persistence.*;
 import java.util.Date;
 
+import javax.persistence.*;
 
 @Entity
 public class Evento {
 	
 	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-	private Long Id;
-	
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Long id;
 	@Column
 	private String Nome;
-	
 	@Column
 	private Date Data;
 	
@@ -22,8 +20,23 @@ public class Evento {
 	
 	public Evento(String nome, Date data) {
 		this.Nome = nome;
+		this.Data = data;
 	}
 	
+	public Evento(Long id, String nome, Date data) {
+		this.id = id;
+		this.Nome = nome;
+		this.Data = data;
+	}
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public String getNome() {
 		return Nome;
 	}
