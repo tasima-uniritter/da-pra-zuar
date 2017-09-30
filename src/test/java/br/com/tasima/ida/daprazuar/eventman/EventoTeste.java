@@ -7,6 +7,9 @@ import java.util.Calendar;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import br.com.tasima.ida.daprazuar.eventman.exceptions.business.InvalidParameterException;
 import br.com.tasima.ida.daprazuar.eventman.exceptions.business.NameTooLongException;
@@ -14,6 +17,8 @@ import br.com.tasima.ida.daprazuar.eventman.exceptions.business.PastDateExceptio
 import br.com.tasima.ida.daprazuar.eventman.models.Evento;
 import br.com.tasima.ida.daprazuar.eventman.services.EventoService;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class EventoTeste {
 
 	private static final String STR_150_CHARS = "..12345_10..12345_10..12345_10..12345_10..12345_10"
@@ -42,9 +47,10 @@ public class EventoTeste {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DATE, 1);
 		ev.setData(cal.getTime());
+		
 
 		// when
-		service.Create(ev);
+		service.create(ev);
 
 		// then
 		// nenhum erro acontece
@@ -58,7 +64,7 @@ public class EventoTeste {
 
 		assertThatThrownBy(() -> {
 			// when
-			service.Create(ev);
+			service.create(ev);
 
 			// then
 		}).isInstanceOf(InvalidParameterException.class);
@@ -72,7 +78,7 @@ public class EventoTeste {
 
 		assertThatThrownBy(() -> {
 			// when
-			service.Create(ev);
+			service.create(ev);
 
 			// then
 		}).isInstanceOf(InvalidParameterException.class);
@@ -86,7 +92,7 @@ public class EventoTeste {
 
 		assertThatThrownBy(() -> {
 			// when
-			service.Create(ev);
+			service.create(ev);
 
 			// then
 		}).isInstanceOf(InvalidParameterException.class);
@@ -99,7 +105,7 @@ public class EventoTeste {
 
 		assertThatThrownBy(() -> {
 			// when
-			service.Create(ev);
+			service.create(ev);
 
 			// then
 		}).isInstanceOf(InvalidParameterException.class);
@@ -116,7 +122,7 @@ public class EventoTeste {
 
 		assertThatThrownBy(() -> {
 			// when
-			service.Create(ev);
+			service.create(ev);
 
 			// then
 		}).isInstanceOf(NameTooLongException.class)
@@ -137,7 +143,7 @@ public class EventoTeste {
 
 		assertThatThrownBy(() -> {
 			// when
-			service.Create(ev);
+			service.create(ev);
 
 			// then
 		}).isInstanceOf(PastDateException.class)
