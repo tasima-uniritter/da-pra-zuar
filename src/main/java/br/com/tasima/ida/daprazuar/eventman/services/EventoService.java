@@ -36,6 +36,7 @@ public class EventoService {
 		if (name == null) {
 			throw new InvalidParameterException();
 		}
+		System.out.println("chegou aqui");
 		
 		Evento ev = eventoRepo.Find(name);
 		
@@ -47,6 +48,7 @@ public class EventoService {
 	}
 	
 	public void Create(Evento ev) throws InvalidParameterException {
+		System.out.println("passei aqui");
 		if (ev == null || ev.getNome() == null || ev.getData() == null) {
 			throw new InvalidParameterException();
 		}

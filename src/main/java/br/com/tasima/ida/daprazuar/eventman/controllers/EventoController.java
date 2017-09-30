@@ -1,6 +1,7 @@
 package br.com.tasima.ida.daprazuar.eventman.controllers;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,18 +53,24 @@ public class EventoController {
     	} catch (InvalidParameterException e) {
     		return ResponseEntity.badRequest().build();
     	} catch (Exception e) {
+    		
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
     }
     
     @RequestMapping(method=RequestMethod.POST, path="/evento")
-    public HttpStatus Create(@RequestBody Evento ev) {
+    public HttpStatus Create(/*@RequestParam Map<String,String> allRequestParams*/@RequestBody Evento ev) {
+    	
+    	System.out.println(ev.toString());
+    	
     	try {
     		service.Create(ev);
     		return HttpStatus.OK;
     	} catch (InvalidParameterException e) {
+    		System.out.println(e.getMessage()+"Aquiii");
 			return HttpStatus.BAD_REQUEST;
 		} catch (Exception e) {
+			System.out.println(e.getMessage()+"aQUIII");
 			return HttpStatus.INTERNAL_SERVER_ERROR;
 		}
     }

@@ -10,9 +10,11 @@ public class Evento {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
-	@Column
+	
+	@Column(nullable=false)
 	private String Nome;
-	@Column
+	
+	@Column(nullable=false)
 	private Date Data;
 	
 	public Evento() {
@@ -53,4 +55,10 @@ public class Evento {
 		this.Data = Data;
 	}
 
+	@Override
+	public String toString() {
+		return "Evento [id=" + id + ", Nome=" + Nome + ", Data=" + Data + "]";
+	}
+
+	
 }
