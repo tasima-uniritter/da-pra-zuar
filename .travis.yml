@@ -3,4 +3,14 @@ jdk:
 - oraclejdk8
 
 before_install:
-- chmod +x gradlew
+ - chmod +x gradlew
+
+addons:
+  sonarcloud:
+    organization: "tasima-uniritter-github"   
+    
+    #token:
+    #  secure: ********* # encrypted value of your token
+script:
+  # other script steps might be done before running the actual analysis
+  - sonar-scanner
