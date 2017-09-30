@@ -1,0 +1,5 @@
+@import url(bootstrap.css);
+@import url(admin.css);
+.menu_lateral{
+    padding-left: 20px;
+}
