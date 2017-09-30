@@ -53,7 +53,6 @@ NamedParameterJdbcTemplate jdbcTemplate;
 		Evento evento = jdbcTemplate.queryForObject(sql, params, new RowMapper<Evento>() {
 			@Override
 			public Evento mapRow(ResultSet rs, int rowNum) throws SQLException {
-				// TODO Auto-generated method stub
 				return new Evento(
 						rs.getLong("id"),
 						rs.getString("nome"),
@@ -73,7 +72,6 @@ NamedParameterJdbcTemplate jdbcTemplate;
 		Evento evento = jdbcTemplate.queryForObject(sql, params, new RowMapper<Evento>() {
 			@Override
 			public Evento mapRow(ResultSet rs, int rowNum) throws SQLException {
-				// TODO Auto-generated method stub
 				return new Evento(
 						rs.getLong("id"),
 						rs.getString("nome"),
@@ -88,12 +86,9 @@ NamedParameterJdbcTemplate jdbcTemplate;
 		
 		String sql = "insert into evento (nome, data) values (:nome, :data)";
 		
-		//System.out.println("explodiu");
-		
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("nome", ev.getNome());
 		params.put("data", ev.getData());
-		//System.out.println("explodiu 2");
 		
 		jdbcTemplate.update(sql, params);
 	}

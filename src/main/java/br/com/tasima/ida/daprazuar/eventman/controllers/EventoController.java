@@ -58,7 +58,6 @@ public class EventoController {
 
     }
     
-    
     @RequestMapping(method=RequestMethod.POST, path="/evento")
     public HttpStatus Create(/*@RequestParam Map<String,String> allRequestParams*/@RequestBody Evento ev) {
     	
@@ -75,8 +74,6 @@ public class EventoController {
 			return HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 	}
-
-
 
 	@RequestMapping(method = RequestMethod.PUT, path = "/evento/{id}")
 	public ResponseEntity<Evento> Update(@PathVariable("id") int id, @RequestBody Evento ev) {
