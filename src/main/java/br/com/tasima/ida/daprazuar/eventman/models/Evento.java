@@ -8,7 +8,7 @@ import javax.persistence.*;
 public class Evento {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
 	@Column(nullable=false)
@@ -60,5 +60,4 @@ public class Evento {
 		return "Evento [id=" + id + ", Nome=" + Nome + ", Data=" + Data + "]";
 	}
 
-	
 }

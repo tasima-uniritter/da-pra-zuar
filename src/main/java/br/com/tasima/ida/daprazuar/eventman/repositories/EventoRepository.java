@@ -18,12 +18,12 @@ public class EventoRepository {
 		memStorage = MemoryStorage.getInstance();
 	}
 	
-	public List<Evento> FindAll() {
+	public List<Evento> findAll() {
 		return memStorage.eventos;
 		
 	}
 	
-	public Evento Find(int id) {
+	public Evento find(int id) {
 		if (id > memStorage.eventos.size()-1)
     		return null;
     	
@@ -31,7 +31,7 @@ public class EventoRepository {
 		
 	}
 	
-	public Evento Find(String name) {
+	public Evento find(String name) {
 		Evento found = null;
     	
     	for (Evento e : memStorage.eventos) {
@@ -45,12 +45,12 @@ public class EventoRepository {
 
 	}
 	
-	public void Insert(Evento ev) {
+	public void insert(Evento ev) {
 		memStorage.eventos.add(ev);
 	}
-
-	public void deleteAll() {
-		// TODO Auto-generated method stub
-		
+	
+	public void update(Evento ev) {
+		//memStorage.eventos.remove(ev.getId());
+		//memStorage.eventos.add(ev.getId(), ev);
 	}
 }

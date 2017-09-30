@@ -21,42 +21,43 @@ import br.com.tasima.ida.daprazuar.eventman.services.EventoService;
 public class EventoController {
 
 	private EventoService service;
-	
+
 	public EventoController() {
 		service = new EventoService();
 	}
-	
-	@RequestMapping(method=RequestMethod.GET, path="/eventos")
-    public ResponseEntity<List<Evento>> GetAll() {    	
-        return ResponseEntity.ok(service.GetAll());
-    }
-	
-    @RequestMapping(method=RequestMethod.GET, path="/evento/{id}")
-    public ResponseEntity<Evento> GetById(@PathVariable("id") int id) {
-    	try {
-    		Evento ev = service.Get(id);
-    		return ResponseEntity.ok(ev);
-    	} catch (NotFoundException e) {
+
+	@RequestMapping(method = RequestMethod.GET, path = "/eventos")
+	public ResponseEntity<List<Evento>> GetAll() {
+		return ResponseEntity.ok(service.getAll());
+	}
+
+	@RequestMapping(method = RequestMethod.GET, path = "/evento/{id}")
+	public ResponseEntity<Evento> GetById(@PathVariable("id") int id) {
+		try {
+			Evento ev = service.get(id);
+			return ResponseEntity.ok(ev);
+		} catch (NotFoundException e) {
 			return ResponseEntity.notFound().build();
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
-    }
-    
-    @RequestMapping(method=RequestMethod.GET, path="/evento")
-    public ResponseEntity<Evento> GetByNome(@RequestParam(value="nome") String nome) {
-    	try {
-    		Evento ev = service.Get(nome);
-    		return ResponseEntity.ok(ev);
-    	} catch (NotFoundException e) {
-    		return ResponseEntity.notFound().build();
-    	} catch (InvalidParameterException e) {
-    		return ResponseEntity.badRequest().build();
-    	} catch (Exception e) {
-    		
+	}
+
+	@RequestMapping(method = RequestMethod.GET, path = "/evento")
+	public ResponseEntity<Evento> GetByNome(@RequestParam(value = "nome") String nome) {
+		try {
+			Evento ev = service.get(nome);
+			return ResponseEntity.ok(ev);
+		} catch (NotFoundException e) {
+			return ResponseEntity.notFound().build();
+		} catch (InvalidParameterException e) {
+			return ResponseEntity.badRequest().build();
+		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
+
     }
+    
     
     @RequestMapping(method=RequestMethod.POST, path="/evento")
     public HttpStatus Create(/*@RequestParam Map<String,String> allRequestParams*/@RequestBody Evento ev) {
@@ -64,7 +65,7 @@ public class EventoController {
     	System.out.println(ev.toString());
     	
     	try {
-    		service.Create(ev);
+    		service.create(ev);
     		return HttpStatus.OK;
     	} catch (InvalidParameterException e) {
     		System.out.println(e.getMessage()+"Aquiii");
@@ -73,5 +74,21 @@ public class EventoController {
 			System.out.println(e.getMessage()+"aQUIII");
 			return HttpStatus.INTERNAL_SERVER_ERROR;
 		}
-    }
+	}
+
+
+
+	@RequestMapping(method = RequestMethod.PUT, path = "/evento/{id}")
+	public ResponseEntity<Evento> Update(@PathVariable("id") int id, @RequestBody Evento ev) {
+		try {
+			Evento updated = service.update(id, ev);
+			return ResponseEntity.ok(updated);
+		} catch (NotFoundException e) {
+			return ResponseEntity.notFound().build();
+		} catch (InvalidParameterException e) {
+			return ResponseEntity.badRequest().build();
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
 }
