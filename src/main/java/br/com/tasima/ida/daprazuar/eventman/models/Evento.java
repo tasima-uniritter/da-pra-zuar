@@ -13,7 +13,7 @@ public class Evento {
 	
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-	private Long Id;
+	private int Id;
 	
 	@Column
 	private String Nome;
@@ -28,6 +28,14 @@ public class Evento {
 		this.Nome = nome;
 	}
 	
+	public int getId() {
+		return Id;
+	}
+
+	public void setId(int id) {
+		Id = id;
+	}
+
 	public String getNome() {
 		return Nome;
 	}

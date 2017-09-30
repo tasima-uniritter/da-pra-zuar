@@ -41,6 +41,12 @@ public class EventoRepository {
 	}
 	
 	public void Insert(Evento ev) {
+		ev.setId(memStorage.eventos.size());
 		memStorage.eventos.add(ev);
+	}
+	
+	public void Update(Evento ev) {
+		memStorage.eventos.remove(ev.getId());
+		memStorage.eventos.add(ev.getId(), ev);
 	}
 }
