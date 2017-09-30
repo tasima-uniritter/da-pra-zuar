@@ -104,7 +104,7 @@ public class EventoRepository {
 	}
 	
 	public void Update(Evento ev) {
-		memStorage.eventos.remove(ev.getId());
-		memStorage.eventos.add(ev.getId(), ev);
+		//memStorage.eventos.remove(ev.getId());
+		//memStorage.eventos.add(ev.getId(), ev);
 	}
 }

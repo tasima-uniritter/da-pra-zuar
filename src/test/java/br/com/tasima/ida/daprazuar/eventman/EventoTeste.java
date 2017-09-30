@@ -38,7 +38,10 @@ public class EventoTeste {
 		// given
 		Evento ev = new Evento();
 		ev.setNome("testCamposObrigatorios");
-		ev.setData(Calendar.getInstance().getTime());
+		
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DATE, 1);
+		ev.setData(cal.getTime());
 
 		// when
 		service.Create(ev);
@@ -129,7 +132,7 @@ public class EventoTeste {
 		ev.setNome("nome");
 		
 		Calendar cal = Calendar.getInstance();
-		cal.roll(Calendar.DATE, false);
+		cal.add(Calendar.DATE, -1);
 		ev.setData(cal.getTime());
 
 		assertThatThrownBy(() -> {
