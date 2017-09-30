@@ -1,27 +1,61 @@
 package br.com.tasima.ida.daprazuar.eventman.models;
 
+import javax.persistence.*;
+
+@Entity
 public class ClienteEvento {
 	
-	String nome;
-    String email;
-    String telefone;
-	private String getNome() {
-		return nome;
+	@Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+	private Long Id;
+	
+	@Column
+	private String Nome;
+	
+	@Column
+	private String Email;
+	
+	@Column
+	private String Telefone;
+	
+	
+	public ClienteEvento() {
+		
 	}
-	private void setNome(String nome) {
-		this.nome = nome;
+	
+	public ClienteEvento(String Nome, String Email, String Telefone) {
+		this.Nome = Nome;
+		this.Email = Email;
+		this.Telefone = Telefone;
 	}
-	private String getEmail() {
-		return email;
+	
+	public ClienteEvento(Long id,String Nome, String Email, String Telefone) {
+		this(Nome,Email,Telefone);
+		this.Id = id;
 	}
-	private void setEmail(String email) {
-		this.email = email;
+	
+	public String getNome() {
+		return Nome;
 	}
-	private String getTelefone() {
-		return telefone;
+	
+	public void setNome(String Nome) {
+		this.Nome = Nome;
 	}
-	private void setTelefone(String telefone) {
-		this.telefone = telefone;
+	
+	public String getEmail() {
+		return Email;
+	}
+	
+	public void setEmail(String Email) {
+		this.Email = Email;
+	}
+	
+	public String getTelefone() {
+		return Telefone;
+	}
+	
+	public void setTelefone(String Telefone) {
+		this.Telefone = Telefone;
 	}
     
 }
