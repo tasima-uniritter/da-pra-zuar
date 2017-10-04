@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "EVENTO")
 public class Evento {
@@ -27,12 +29,15 @@ public class Evento {
 	@Column(nullable=false)
 	private Date data;
 	
+	@JsonIgnoreProperties("evento")
 	@OneToMany(mappedBy = "evento", cascade = CascadeType.ALL)
 	private Set<TipoIngresso> tiposIngresso;
 	
+	@JsonIgnoreProperties("evento")
 	@OneToMany(mappedBy = "evento", cascade = CascadeType.ALL)
 	private Set<TipoCliente> tiposCliente;
 	
+	@JsonIgnoreProperties("evento")
 	@OneToMany(mappedBy = "evento", cascade = CascadeType.ALL)
 	private Set<Ingresso> ingressos;
 	

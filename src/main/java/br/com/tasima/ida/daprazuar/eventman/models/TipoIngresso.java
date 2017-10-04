@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "TIPO_INGRESSO")
 public class TipoIngresso {
@@ -33,6 +35,7 @@ public class TipoIngresso {
 	private Date fimVendas;
 	
 	// chave estrangeira para evento
+	@JsonBackReference(value="tipo-ingresso")
 	@ManyToOne
 	@JoinColumn(name = "ID_EVENTO")
 	private Evento evento;

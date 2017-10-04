@@ -29,7 +29,7 @@ public class EventoController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, path = "/evento/{id}")
-	public ResponseEntity<Evento> GetById(@PathVariable("id") int id) {
+	public ResponseEntity<Evento> GetById(@PathVariable("id") long id) {
 		try {
 			Evento ev = service.get(id);
 			return ResponseEntity.ok(ev);
@@ -57,9 +57,6 @@ public class EventoController {
     
     @RequestMapping(method=RequestMethod.POST, path="/evento")
     public HttpStatus Create(@RequestBody Evento ev) {
-    	
-    	System.out.println(ev.toString());
-    	
     	try {
     		service.create(ev);
     		return HttpStatus.OK;
@@ -71,7 +68,7 @@ public class EventoController {
 	}
 
 	@RequestMapping(method = RequestMethod.PUT, path = "/evento/{id}")
-	public ResponseEntity<Evento> Update(@PathVariable("id") int id, @RequestBody Evento ev) {
+	public ResponseEntity<Evento> Update(@PathVariable("id") long id, @RequestBody Evento ev) {
 		try {
 			Evento updated = service.update(id, ev);
 			return ResponseEntity.ok(updated);

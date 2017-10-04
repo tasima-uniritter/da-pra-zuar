@@ -69,7 +69,7 @@ public class EventoService {
 		eventoRepository.save(ev);
 	}
 
-	public Evento update(int id, Evento ev) throws InvalidParameterException, NotFoundException {
+	public Evento update(long id, Evento ev) throws InvalidParameterException, NotFoundException {
 		if (ev == null) {
 			throw new InvalidParameterException();
 		}
@@ -83,4 +83,5 @@ public class EventoService {
 
 		return localEv;
 	}
+	
 }

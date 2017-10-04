@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "INGRESSO")
 public abstract class Ingresso {
@@ -19,16 +21,19 @@ public abstract class Ingresso {
 	private Long Id;
 	
 	// chave estrangeira para tipo de ingresso
+	@JsonBackReference(value="ingresso-tipoIngresso")
 	@ManyToOne
 	@JoinColumn(name = "ID_TIPO_INGRESSO")
 	private TipoIngresso tipoIgresso;
 	
 	// chave estrangeira para tipo de cliente
+	@JsonBackReference(value="ingresso-tipoCliente")
 	@ManyToOne
 	@JoinColumn(name = "ID_TIPO_CLIENTE")
 	private TipoCliente tipoCliente;
 	
 	// chave estrangeira para evento
+	@JsonBackReference(value="ingresso")
 	@ManyToOne
 	@JoinColumn(name = "ID_EVENTO")
 	private Evento evento;
