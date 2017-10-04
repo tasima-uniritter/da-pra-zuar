@@ -8,6 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -25,11 +26,11 @@ public class EventoTeste {
 			+ "..12345_10..12345_10..12345_10..12345_10..12345_10..12345_10..12345_10..12345_10"
 			+ "..12345_10..12345_10";
 
+	@Autowired
 	private EventoService service;
 
 	@Before
 	public void setUp() throws Exception {
-		service = new EventoService();
 	}
 
 	@After
@@ -48,7 +49,6 @@ public class EventoTeste {
 		cal.add(Calendar.DATE, 1);
 		ev.setData(cal.getTime());
 		
-
 		// when
 		service.create(ev);
 

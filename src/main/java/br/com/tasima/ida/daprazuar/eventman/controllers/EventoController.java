@@ -1,8 +1,8 @@
 package br.com.tasima.ida.daprazuar.eventman.controllers;
 
 import java.util.List;
-import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,11 +20,8 @@ import br.com.tasima.ida.daprazuar.eventman.services.EventoService;
 @RestController
 public class EventoController {
 
+	@Autowired
 	private EventoService service;
-
-	public EventoController() {
-		service = new EventoService();
-	}
 
 	@RequestMapping(method = RequestMethod.GET, path = "/eventos")
 	public ResponseEntity<List<Evento>> GetAll() {
@@ -59,7 +56,7 @@ public class EventoController {
     }
     
     @RequestMapping(method=RequestMethod.POST, path="/evento")
-    public HttpStatus Create(/*@RequestParam Map<String,String> allRequestParams*/@RequestBody Evento ev) {
+    public HttpStatus Create(@RequestBody Evento ev) {
     	
     	System.out.println(ev.toString());
     	
@@ -67,10 +64,8 @@ public class EventoController {
     		service.create(ev);
     		return HttpStatus.OK;
     	} catch (InvalidParameterException e) {
-    		System.out.println(e.getMessage()+"Aquiii");
 			return HttpStatus.BAD_REQUEST;
 		} catch (Exception e) {
-			System.out.println(e.getMessage()+"aQUIII");
 			return HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 	}
