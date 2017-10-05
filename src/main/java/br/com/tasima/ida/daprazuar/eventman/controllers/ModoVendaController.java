@@ -14,25 +14,25 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.tasima.ida.daprazuar.eventman.exceptions.business.InvalidParameterException;
 import br.com.tasima.ida.daprazuar.eventman.exceptions.business.NotFoundException;
 import br.com.tasima.ida.daprazuar.eventman.models.Evento;
-import br.com.tasima.ida.daprazuar.eventman.models.TipoCliente;
+import br.com.tasima.ida.daprazuar.eventman.models.ModoVenda;
 import br.com.tasima.ida.daprazuar.eventman.services.EventoService;
-import br.com.tasima.ida.daprazuar.eventman.services.TipoClienteService;
+import br.com.tasima.ida.daprazuar.eventman.services.ModoVendaService;
 
 @RestController
 @RequestMapping("/evento/{eventoId}")
-public class TipoClienteController {
+public class ModoVendaController {
 
 	@Autowired
 	private EventoService eventoService;
 	
 	@Autowired
-	private TipoClienteService tipoClienteService;
+	private ModoVendaService modoVendaService;
 	
-	@RequestMapping(method = RequestMethod.GET, path = "/tipos-cliente")
-	public ResponseEntity<Set<TipoCliente>> GetAll(@PathVariable long eventoId) {
+	@RequestMapping(method = RequestMethod.GET, path = "/modos-venda")
+	public ResponseEntity<Set<ModoVenda>> GetAll(@PathVariable long eventoId) {
 		try {
 			Evento ev = eventoService.get(eventoId);
-			return ResponseEntity.ok(ev.getTiposCliente());
+			return ResponseEntity.ok(ev.getModosVenda());
 		} catch (NotFoundException e) {
 			return ResponseEntity.notFound().build();
 		} catch (Exception e) {
@@ -40,12 +40,12 @@ public class TipoClienteController {
 		}
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, path = "/tipo-cliente/{id}")
-	public ResponseEntity<TipoCliente> GetById(@PathVariable long eventoId, @PathVariable("id") long id) {
+	@RequestMapping(method = RequestMethod.GET, path = "/modo-venda/{id}")
+	public ResponseEntity<ModoVenda> GetById(@PathVariable long eventoId, @PathVariable("id") long id) {
 		try {
 			Evento ev = eventoService.get(eventoId);
-			TipoCliente tc = tipoClienteService.get(id, ev);
-			return ResponseEntity.ok(tc);
+			ModoVenda mv = modoVendaService.get(id, ev);
+			return ResponseEntity.ok(mv);
 		} catch (NotFoundException e) {
 			return ResponseEntity.notFound().build();
 		} catch (Exception e) {
@@ -53,12 +53,12 @@ public class TipoClienteController {
 		}
 	}
 	
-	@RequestMapping(method=RequestMethod.POST, path="/tipo-cliente")
-    public ResponseEntity<TipoCliente> Create(@PathVariable long eventoId, @RequestBody TipoCliente tc) {
+	@RequestMapping(method=RequestMethod.POST, path="/modo-venda")
+    public ResponseEntity<ModoVenda> Create(@PathVariable long eventoId, @RequestBody ModoVenda mv) {
     	try {
     		Evento ev = eventoService.get(eventoId);
     		
-    		TipoCliente created = tipoClienteService.create(tc, ev);
+    		ModoVenda created = modoVendaService.create(mv, ev);
     		return ResponseEntity.ok(created);
     	} catch (NotFoundException e) {
 			return ResponseEntity.notFound().build();

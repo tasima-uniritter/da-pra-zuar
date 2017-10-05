@@ -3,6 +3,7 @@ package br.com.tasima.ida.daprazuar.eventman.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.tasima.ida.daprazuar.eventman.exceptions.business.DateException;
 import br.com.tasima.ida.daprazuar.eventman.exceptions.business.InvalidParameterException;
 import br.com.tasima.ida.daprazuar.eventman.exceptions.business.NotFoundException;
 import br.com.tasima.ida.daprazuar.eventman.models.Evento;
@@ -32,10 +33,14 @@ public class TipoIngressoService {
 		return ti;
 	}
 	
-	public TipoIngresso create(TipoIngresso ti, Evento ev) throws InvalidParameterException {
-		if (ti == null || ti.getCategoria() <= 0 || ti.getValor() <= 0
+	public TipoIngresso create(TipoIngresso ti, Evento ev) throws InvalidParameterException, DateException {
+		if (ti == null || ti.getCategoria() == null || ti.getCategoria().isEmpty() || ti.getValor() <= 0
 				|| ti.getInicioVendas() == null || ti.getFimVendas() == null) {
 			throw new InvalidParameterException();
+		}
+		
+		if (ti.getInicioVendas().after(ti.getFimVendas())) {
+			throw new DateException("A data de início de venda deve ser inferior a data de fim");
 		}
 		
 		ti.setEvento(ev);

@@ -41,6 +41,10 @@ public class Evento {
 	@OneToMany(mappedBy = "evento", cascade = CascadeType.ALL)
 	private Set<Ingresso> ingressos;
 	
+	@JsonIgnoreProperties("evento")
+	@OneToMany(mappedBy = "evento", cascade = CascadeType.ALL)
+	private Set<ModoVenda> modosVenda;
+	
 	public Evento() {
 	}
 	
@@ -101,6 +105,14 @@ public class Evento {
 
 	public void setIngressos(Set<Ingresso> ingressos) {
 		this.ingressos = ingressos;
+	}
+
+	public Set<ModoVenda> getModosVenda() {
+		return modosVenda;
+	}
+
+	public void setModosVenda(Set<ModoVenda> modosVenda) {
+		this.modosVenda = modosVenda;
 	}
 
 	@Override

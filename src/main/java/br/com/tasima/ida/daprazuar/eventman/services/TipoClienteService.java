@@ -33,7 +33,7 @@ public class TipoClienteService {
 	}
 	
 	public TipoCliente create(TipoCliente tc, Evento ev) throws InvalidParameterException {
-		if (tc == null || tc.getCategoria() <= 0 || tc.getDesconto() <= 0) {
+		if (tc == null || tc.getCategoria() == null || tc.getCategoria().isEmpty() || tc.getDesconto() <= 0) {
 			throw new InvalidParameterException();
 		}
 		

@@ -12,22 +12,19 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
-@Table(name = "TIPO_CLIENTE")
-public class TipoCliente {
+@Table(name = "MODO_VENDA")
+public class ModoVenda {
 
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="ID_TIPO_CLIENTE")
+	@Column(name="ID_MODO_VENDA")
 	private Long id;
 	
 	@Column
-	private String categoria;
-	
-	@Column
-	private int desconto;
+	private String modo;
 	
 	// chave estrangeira para evento
-	@JsonBackReference(value="tipo-cliente")
+	@JsonBackReference(value="modo-venda")
 	@ManyToOne
 	@JoinColumn(name = "ID_EVENTO")
 	private Evento evento;
@@ -40,20 +37,12 @@ public class TipoCliente {
 		this.id = id;
 	}
 
-	public String getCategoria() {
-		return categoria;
+	public String getModo() {
+		return modo;
 	}
 
-	public void setCategoria(String categoria) {
-		this.categoria = categoria;
-	}
-
-	public int getDesconto() {
-		return desconto;
-	}
-
-	public void setDesconto(int desconto) {
-		this.desconto = desconto;
+	public void setModo(String modo) {
+		this.modo = modo;
 	}
 
 	public Evento getEvento() {

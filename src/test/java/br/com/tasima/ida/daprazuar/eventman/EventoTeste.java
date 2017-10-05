@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import br.com.tasima.ida.daprazuar.eventman.exceptions.business.InvalidParameterException;
 import br.com.tasima.ida.daprazuar.eventman.exceptions.business.NameTooLongException;
-import br.com.tasima.ida.daprazuar.eventman.exceptions.business.PastDateException;
+import br.com.tasima.ida.daprazuar.eventman.exceptions.business.DateException;
 import br.com.tasima.ida.daprazuar.eventman.models.Evento;
 import br.com.tasima.ida.daprazuar.eventman.services.EventoService;
 
@@ -40,7 +40,7 @@ public class EventoTeste {
 	// US 1 - AC 2
 
 	@Test
-	public void testCriarCompleto() throws InvalidParameterException, NameTooLongException, PastDateException {
+	public void testCriarCompleto() throws InvalidParameterException, NameTooLongException, DateException {
 		// given
 		Evento ev = new Evento();
 		ev.setNome("testCamposObrigatorios");
@@ -146,7 +146,7 @@ public class EventoTeste {
 			service.create(ev);
 
 			// then
-		}).isInstanceOf(PastDateException.class)
+		}).isInstanceOf(DateException.class)
 		.hasMessage("A data do evento deve ser igual ou maior que a de hoje");
 	}
 }

@@ -23,10 +23,10 @@ public class TipoIngresso {
 	private Long id;
 	
 	@Column
-	private int categoria;
+	private String categoria;
 	
 	@Column
-	private int valor;
+	private Long valor;
 	
 	@Column
 	private Date inicioVendas;
@@ -48,19 +48,19 @@ public class TipoIngresso {
 		this.id = id;
 	}
 
-	public int getCategoria() {
+	public String getCategoria() {
 		return categoria;
 	}
 
-	public void setCategoria(int categoria) {
+	public void setCategoria(String categoria) {
 		this.categoria = categoria;
 	}
 
-	public int getValor() {
+	public Long getValor() {
 		return valor;
 	}
 
-	public void setValor(int valor) {
+	public void setValor(Long valor) {
 		this.valor = valor;
 	}
 
