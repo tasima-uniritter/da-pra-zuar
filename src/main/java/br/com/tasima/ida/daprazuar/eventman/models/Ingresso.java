@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "INGRESSO")
-public abstract class Ingresso {
+public class Ingresso {
 	
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -24,7 +24,7 @@ public abstract class Ingresso {
 	@JsonBackReference(value="ingresso-tipoIngresso")
 	@ManyToOne
 	@JoinColumn(name = "ID_TIPO_INGRESSO")
-	private TipoIngresso tipoIgresso;
+	private TipoIngresso tipoIngresso;
 	
 	// chave estrangeira para tipo de cliente
 	@JsonBackReference(value="ingresso-tipoCliente")
@@ -37,4 +37,47 @@ public abstract class Ingresso {
 	@ManyToOne
 	@JoinColumn(name = "ID_EVENTO")
 	private Evento evento;
+	
+	@Column
+	private float valorCobrado;
+	
+	public Long getId() {
+		return Id;
+	}
+
+	public void setId(Long id) {
+		Id = id;
+	}
+
+	public TipoIngresso getTipoIngresso() {
+		return tipoIngresso;
+	}
+
+	public void setTipoIngresso(TipoIngresso tipoIngresso) {
+		this.tipoIngresso = tipoIngresso;
+	}
+
+	public TipoCliente getTipoCliente() {
+		return tipoCliente;
+	}
+
+	public void setTipoCliente(TipoCliente tipoCliente) {
+		this.tipoCliente = tipoCliente;
+	}
+
+	public Evento getEvento() {
+		return evento;
+	}
+
+	public void setEvento(Evento evento) {
+		this.evento = evento;
+	}
+
+	public float getValorCobrado() {
+		return valorCobrado;
+	}
+
+	public void setValorCobrado(float valorCobrado) {
+		this.valorCobrado = valorCobrado;
+	}
 }

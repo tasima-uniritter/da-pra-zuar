@@ -1,4 +1,4 @@
-package br.com.tasima.ida.daprazuar.eventman;
+package br.com.tasima.ida.daprazuar.eventman.services;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -20,7 +20,7 @@ import br.com.tasima.ida.daprazuar.eventman.services.EventoService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class EventoTeste {
+public class EventoServiceTest {
 
 	private static final String STR_150_CHARS = "..12345_10..12345_10..12345_10..12345_10..12345_10"
 			+ "..12345_10..12345_10..12345_10..12345_10..12345_10..12345_10..12345_10..12345_10"

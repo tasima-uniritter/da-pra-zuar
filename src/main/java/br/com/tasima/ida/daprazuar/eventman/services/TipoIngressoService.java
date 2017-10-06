@@ -46,4 +46,12 @@ public class TipoIngressoService {
 		ti.setEvento(ev);
 		return tipoIngressoRepository.save(ti);
 	}
+	
+	public void delete(TipoIngresso ti) throws InvalidParameterException {
+		if (ti == null) {
+			throw new InvalidParameterException();
+		}
+		
+		tipoIngressoRepository.delete(ti);
+	}
 }

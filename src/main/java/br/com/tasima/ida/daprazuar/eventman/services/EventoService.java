@@ -9,10 +9,10 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.tasima.ida.daprazuar.eventman.exceptions.business.DateException;
 import br.com.tasima.ida.daprazuar.eventman.exceptions.business.InvalidParameterException;
 import br.com.tasima.ida.daprazuar.eventman.exceptions.business.NameTooLongException;
 import br.com.tasima.ida.daprazuar.eventman.exceptions.business.NotFoundException;
-import br.com.tasima.ida.daprazuar.eventman.exceptions.business.DateException;
 import br.com.tasima.ida.daprazuar.eventman.models.Evento;
 import br.com.tasima.ida.daprazuar.eventman.repositories.EventoRepository;
 
@@ -52,7 +52,7 @@ public class EventoService {
 	}
 
 
-	public void create(Evento ev) throws InvalidParameterException, NameTooLongException, DateException {
+	public Evento create(Evento ev) throws InvalidParameterException, NameTooLongException, DateException {
 		if (ev == null || (ev.getNome() == null || ev.getNome().isEmpty()) || ev.getData() == null) {
 			throw new InvalidParameterException();
 		}
@@ -66,7 +66,7 @@ public class EventoService {
 			throw new DateException("A data do evento deve ser igual ou maior que a de hoje");
 		}
 		
-		eventoRepository.save(ev);
+		return eventoRepository.save(ev);
 	}
 
 	public Evento update(long id, Evento ev) throws InvalidParameterException, NotFoundException {
@@ -82,6 +82,14 @@ public class EventoService {
 		eventoRepository.save(localEv);
 
 		return localEv;
+	}
+	
+	public void delete(Evento ev) throws InvalidParameterException {
+		if (ev == null) {
+			throw new InvalidParameterException();
+		}
+		
+		eventoRepository.delete(ev);
 	}
 	
 }

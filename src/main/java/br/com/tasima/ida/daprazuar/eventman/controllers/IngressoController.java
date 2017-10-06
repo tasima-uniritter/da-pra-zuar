@@ -2,12 +2,9 @@ package br.com.tasima.ida.daprazuar.eventman.controllers;
 
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,28 +13,27 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.tasima.ida.daprazuar.eventman.exceptions.business.InvalidParameterException;
 import br.com.tasima.ida.daprazuar.eventman.exceptions.business.NotFoundException;
-import br.com.tasima.ida.daprazuar.eventman.exceptions.business.ValueRangeException;
 import br.com.tasima.ida.daprazuar.eventman.models.Evento;
-import br.com.tasima.ida.daprazuar.eventman.models.ResponseError;
-import br.com.tasima.ida.daprazuar.eventman.models.TipoCliente;
+import br.com.tasima.ida.daprazuar.eventman.models.Ingresso;
+import br.com.tasima.ida.daprazuar.eventman.models.dtos.IngressoPostDto;
 import br.com.tasima.ida.daprazuar.eventman.services.EventoService;
-import br.com.tasima.ida.daprazuar.eventman.services.TipoClienteService;
+import br.com.tasima.ida.daprazuar.eventman.services.IngressoService;
 
 @RestController
 @RequestMapping("/evento/{eventoId}")
-public class TipoClienteController {
+public class IngressoController {
 
 	@Autowired
 	private EventoService eventoService;
 	
 	@Autowired
-	private TipoClienteService tipoClienteService;
+	private IngressoService ingressoService;
 	
-	@RequestMapping(method = RequestMethod.GET, path = "/tipos-cliente")
-	public ResponseEntity<Set<TipoCliente>> GetAll(@PathVariable long eventoId) {
+	@RequestMapping(method = RequestMethod.GET, path = "/ingresso")
+	public ResponseEntity<Set<Ingresso>> GetAll(@PathVariable long eventoId) {
 		try {
 			Evento ev = eventoService.get(eventoId);
-			return ResponseEntity.ok(ev.getTiposCliente());
+			return ResponseEntity.ok(ev.getIngressos());
 		} catch (NotFoundException e) {
 			return ResponseEntity.notFound().build();
 		} catch (Exception e) {
@@ -45,12 +41,12 @@ public class TipoClienteController {
 		}
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, path = "/tipo-cliente/{id}")
-	public ResponseEntity<TipoCliente> GetById(@PathVariable long eventoId, @PathVariable("id") long id) {
+	@RequestMapping(method = RequestMethod.GET, path = "/ingresso/{id}")
+	public ResponseEntity<Ingresso> GetById(@PathVariable long eventoId, @PathVariable("id") long id) {
 		try {
 			Evento ev = eventoService.get(eventoId);
-			TipoCliente tc = tipoClienteService.get(id, ev);
-			return ResponseEntity.ok(tc);
+			Ingresso in = ingressoService.get(id, ev);
+			return ResponseEntity.ok(in);
 		} catch (NotFoundException e) {
 			return ResponseEntity.notFound().build();
 		} catch (Exception e) {
@@ -58,23 +54,19 @@ public class TipoClienteController {
 		}
 	}
 	
-	@RequestMapping(method=RequestMethod.POST, path="/tipo-cliente")
-    public ResponseEntity<TipoCliente> Create(@PathVariable long eventoId, @RequestBody TipoCliente tc) throws ValueRangeException {
+	@RequestMapping(method=RequestMethod.POST, path="/ingresso")
+    public ResponseEntity<Ingresso> Create(@PathVariable long eventoId, @RequestBody IngressoPostDto inDto) {
     	try {
     		Evento ev = eventoService.get(eventoId);
     		
-    		TipoCliente created = tipoClienteService.create(tc, ev);
+    		Ingresso created = ingressoService.create(inDto, ev);
     		return ResponseEntity.ok(created);
     	} catch (NotFoundException e) {
 			return ResponseEntity.notFound().build();
     	} catch (InvalidParameterException e) {
 			return ResponseEntity.badRequest().build();
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
-	}
-	
-	@ExceptionHandler({ValueRangeException.class})
-	public ResponseError customError(HttpServletRequest req, Exception ex) {
-		ResponseError response = new ResponseError(2, ex.getMessage());
-		return response;
 	}
 }

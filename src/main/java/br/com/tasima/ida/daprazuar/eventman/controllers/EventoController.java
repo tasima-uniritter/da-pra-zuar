@@ -56,14 +56,14 @@ public class EventoController {
     }
     
     @RequestMapping(method=RequestMethod.POST, path="/evento")
-    public HttpStatus Create(@RequestBody Evento ev) {
+    public ResponseEntity<Evento> Create(@RequestBody Evento ev) {
     	try {
-    		service.create(ev);
-    		return HttpStatus.OK;
+    		Evento created = service.create(ev);
+    		return ResponseEntity.ok(created);
     	} catch (InvalidParameterException e) {
-			return HttpStatus.BAD_REQUEST;
+			return ResponseEntity.badRequest().build();
 		} catch (Exception e) {
-			return HttpStatus.INTERNAL_SERVER_ERROR;
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 

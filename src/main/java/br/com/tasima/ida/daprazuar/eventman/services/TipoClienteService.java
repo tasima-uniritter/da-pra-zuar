@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.tasima.ida.daprazuar.eventman.exceptions.business.InvalidParameterException;
 import br.com.tasima.ida.daprazuar.eventman.exceptions.business.NotFoundException;
+import br.com.tasima.ida.daprazuar.eventman.exceptions.business.ValueRangeException;
 import br.com.tasima.ida.daprazuar.eventman.models.Evento;
 import br.com.tasima.ida.daprazuar.eventman.models.TipoCliente;
 import br.com.tasima.ida.daprazuar.eventman.repositories.TipoClienteRepository;
@@ -32,12 +33,26 @@ public class TipoClienteService {
 		return tc;
 	}
 	
-	public TipoCliente create(TipoCliente tc, Evento ev) throws InvalidParameterException {
-		if (tc == null || tc.getCategoria() == null || tc.getCategoria().isEmpty() || tc.getDesconto() <= 0) {
+	public TipoCliente create(TipoCliente tc, Evento ev) throws InvalidParameterException, ValueRangeException {
+		if (tc == null || tc.getCategoria() == null || tc.getCategoria().isEmpty()) {
 			throw new InvalidParameterException();
 		}
 		
+		if (tc.getDesconto() <= 0)
+			throw new ValueRangeException("Desconto deve ser de no mímino 0%");
+		
+		if (tc.getDesconto() > 100)
+			throw new ValueRangeException("Desconto deve ser de no máximo 100%");
+		
 		tc.setEvento(ev);
 		return tipoClienteRepository.save(tc);
+	}
+	
+	public void delete(TipoCliente tc) throws InvalidParameterException {
+		if (tc == null) {
+			throw new InvalidParameterException();
+		}
+		
+		tipoClienteRepository.delete(tc);
 	}
 }
