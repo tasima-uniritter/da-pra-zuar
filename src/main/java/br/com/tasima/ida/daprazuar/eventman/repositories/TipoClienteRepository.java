@@ -3,9 +3,8 @@ package br.com.tasima.ida.daprazuar.eventman.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import br.com.tasima.ida.daprazuar.eventman.models.Evento;
+import br.com.tasima.ida.daprazuar.eventman.models.TipoCliente;
 
 @Repository
-public interface EventoRepository extends JpaRepository<Evento, Long> {
-	Evento findByNome(String nome);
+public interface TipoClienteRepository extends JpaRepository<TipoCliente, Long> {
 }
