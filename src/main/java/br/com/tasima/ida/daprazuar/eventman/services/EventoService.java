@@ -4,35 +4,31 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.sql.DataSource;
+import javax.transaction.Transactional;
 
-import org.h2.jdbcx.JdbcDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.tasima.ida.daprazuar.eventman.exceptions.business.DateException;
 import br.com.tasima.ida.daprazuar.eventman.exceptions.business.InvalidParameterException;
 import br.com.tasima.ida.daprazuar.eventman.exceptions.business.NameTooLongException;
 import br.com.tasima.ida.daprazuar.eventman.exceptions.business.NotFoundException;
-import br.com.tasima.ida.daprazuar.eventman.exceptions.business.PastDateException;
 import br.com.tasima.ida.daprazuar.eventman.models.Evento;
 import br.com.tasima.ida.daprazuar.eventman.repositories.EventoRepository;
-import br.com.tasima.ida.daprazuar.eventman.repositories.EventoRepositoryH2;
 
 @Service
+@Transactional
 public class EventoService {
-
-	private EventoRepositoryH2 eventoRepo;
-
-	public EventoService() {
-		//deve receber Datasource, now hardcoded in EventoRepositoryH2
-		eventoRepo = new EventoRepositoryH2( new JdbcDataSource());
-	}
+	
+	@Autowired
+	private EventoRepository eventoRepository;
 
 	public List<Evento> getAll() {
-		return eventoRepo.findAll();
+		return eventoRepository.findAll();
 	}
 
-	public Evento get(int id) throws NotFoundException {
-		Evento ev = eventoRepo.find(id);
+	public Evento get(long id) throws NotFoundException {
+		Evento ev = eventoRepository.findOne(id);
 
 		if (ev == null) {
 			throw new NotFoundException();
@@ -46,7 +42,7 @@ public class EventoService {
 			throw new InvalidParameterException();
 		}
 
-		Evento ev = eventoRepo.find(name);
+		Evento ev = eventoRepository.findByNome(name);
 
 		if (ev == null) {
 			throw new NotFoundException();
@@ -56,7 +52,7 @@ public class EventoService {
 	}
 
 
-	public void create(Evento ev) throws InvalidParameterException, NameTooLongException, PastDateException {
+	public Evento create(Evento ev) throws InvalidParameterException, NameTooLongException, DateException {
 		if (ev == null || (ev.getNome() == null || ev.getNome().isEmpty()) || ev.getData() == null) {
 			throw new InvalidParameterException();
 		}
@@ -67,13 +63,13 @@ public class EventoService {
 		
 		Date today = Calendar.getInstance().getTime();
 		if (ev.getData().before(today)) {
-			throw new PastDateException("A data do evento deve ser igual ou maior que a de hoje");
+			throw new DateException("A data do evento deve ser igual ou maior que a de hoje");
 		}
-
-		eventoRepo.insert(ev);
+		
+		return eventoRepository.save(ev);
 	}
 
-	public Evento update(int id, Evento ev) throws InvalidParameterException, NotFoundException {
+	public Evento update(long id, Evento ev) throws InvalidParameterException, NotFoundException {
 		if (ev == null) {
 			throw new InvalidParameterException();
 		}
@@ -83,8 +79,17 @@ public class EventoService {
 		localEv.setNome(ev.getNome());
 		localEv.setData(ev.getData());
 
-		eventoRepo.update(localEv);
+		eventoRepository.save(localEv);
 
 		return localEv;
 	}
+	
+	public void delete(Evento ev) throws InvalidParameterException {
+		if (ev == null) {
+			throw new InvalidParameterException();
+		}
+		
+		eventoRepository.delete(ev);
+	}
+	
 }

@@ -1,54 +1,64 @@
 package br.com.tasima.ida.daprazuar.eventman.models;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
-import br.com.tasima.ida.daprazuar.eventman.models.enumeration.TipoIngresso;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
+@Table(name = "EVENTO")
 public class Evento {
 	
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="ID_EVENTO")
 	private Long id;
 	
 	@Column(nullable=false)
-	private String Nome;
+	private String nome;
 	
 	@Column(nullable=false)
-	private Date Data;
+	private Date data;
 	
-//	@NotNull
-//    @ManyToMany(fetch = FetchType.LAZY)
-//    @JoinTable(name = "EVENTO_INGRESSO",
-//            joinColumns = { @JoinColumn(name = "ID") },
-//            inverseJoinColumns = { @JoinColumn(name = "ID") })
+	@JsonIgnoreProperties("evento")
+	@OneToMany(mappedBy = "evento", cascade = CascadeType.ALL)
+	private Set<TipoIngresso> tiposIngresso;
 	
-	@NotNull
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "EVENTO_INGRESSOEVENTO",
-		joinColumns = { @JoinColumn(name = "ID_EVENTO") },
-		inverseJoinColumns = { @JoinColumn(name = "ID_INGRESSOEVENTO") })
-	private Set<IngressoEvento> tiposIngresso;
+	@JsonIgnoreProperties("evento")
+	@OneToMany(mappedBy = "evento", cascade = CascadeType.ALL)
+	private Set<TipoCliente> tiposCliente;
+	
+	@JsonIgnoreProperties("evento")
+	@OneToMany(mappedBy = "evento", cascade = CascadeType.ALL)
+	private Set<Ingresso> ingressos;
+	
+	@JsonIgnoreProperties("evento")
+	@OneToMany(mappedBy = "evento", cascade = CascadeType.ALL)
+	private Set<ModoVenda> modosVenda;
 	
 	public Evento() {
 	}
 	
 	public Evento(String nome, Date data) {
-		this.Nome = nome;
-		this.Data = data;
+		this.nome = nome;
+		this.data = data;
 	}
 	
 	public Evento(Long id, String nome, Date data) {
 		this.id = id;
-		this.Nome = nome;
-		this.Data = data;
+		this.nome = nome;
+		this.data = data;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -58,32 +68,56 @@ public class Evento {
 	}
 
 	public String getNome() {
-		return Nome;
+		return nome;
 	}
-	
-	public void setNome(String Nome) {
-		this.Nome = Nome;
+
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public Date getData() {
-		return Data;
-	}
-	
-	public void setData(Date Data) {
-		this.Data = Data;
+		return data;
 	}
 
-//	public List<TipoIngresso> getTiposIngresso() {
-//		return tiposIngresso;
-//	}
-//
-//	public void setTiposIngresso(List<TipoIngresso> tiposIngresso) {
-//		this.tiposIngresso = tiposIngresso;
-//	}
+	public void setData(Date data) {
+		this.data = data;
+	}
+
+	public Set<TipoIngresso> getTiposIngresso() {
+		return tiposIngresso;
+	}
+
+	public void setTiposIngresso(Set<TipoIngresso> tiposIngresso) {
+		this.tiposIngresso = tiposIngresso;
+	}
+
+	public Set<TipoCliente> getTiposCliente() {
+		return tiposCliente;
+	}
+
+	public void setTiposCliente(Set<TipoCliente> tiposCliente) {
+		this.tiposCliente = tiposCliente;
+	}
+
+	public Set<Ingresso> getIngressos() {
+		return ingressos;
+	}
+
+	public void setIngressos(Set<Ingresso> ingressos) {
+		this.ingressos = ingressos;
+	}
+
+	public Set<ModoVenda> getModosVenda() {
+		return modosVenda;
+	}
+
+	public void setModosVenda(Set<ModoVenda> modosVenda) {
+		this.modosVenda = modosVenda;
+	}
 
 	@Override
 	public String toString() {
-		return "Evento [id=" + id + ", Nome=" + Nome + ", Data=" + Data + "]";
+		return "Evento [id=" + id + ", Nome=" + nome + ", Data=" + data + "]";
 	}
 
 }

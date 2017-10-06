@@ -1,4 +1,4 @@
-package br.com.tasima.ida.daprazuar.eventman;
+package br.com.tasima.ida.daprazuar.eventman.services;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -8,28 +8,29 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import br.com.tasima.ida.daprazuar.eventman.exceptions.business.InvalidParameterException;
 import br.com.tasima.ida.daprazuar.eventman.exceptions.business.NameTooLongException;
-import br.com.tasima.ida.daprazuar.eventman.exceptions.business.PastDateException;
+import br.com.tasima.ida.daprazuar.eventman.exceptions.business.DateException;
 import br.com.tasima.ida.daprazuar.eventman.models.Evento;
 import br.com.tasima.ida.daprazuar.eventman.services.EventoService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class EventoTeste {
+public class EventoServiceTest {
 
 	private static final String STR_150_CHARS = "..12345_10..12345_10..12345_10..12345_10..12345_10"
 			+ "..12345_10..12345_10..12345_10..12345_10..12345_10..12345_10..12345_10..12345_10"
 			+ "..12345_10..12345_10";
 
+	@Autowired
 	private EventoService service;
 
 	@Before
 	public void setUp() throws Exception {
-		service = new EventoService();
 	}
 
 	@After
@@ -39,7 +40,7 @@ public class EventoTeste {
 	// US 1 - AC 2
 
 	@Test
-	public void testCriarCompleto() throws InvalidParameterException, NameTooLongException, PastDateException {
+	public void testCriarCompleto() throws InvalidParameterException, NameTooLongException, DateException {
 		// given
 		Evento ev = new Evento();
 		ev.setNome("testCamposObrigatorios");
@@ -48,7 +49,6 @@ public class EventoTeste {
 		cal.add(Calendar.DATE, 1);
 		ev.setData(cal.getTime());
 		
-
 		// when
 		service.create(ev);
 
@@ -146,7 +146,7 @@ public class EventoTeste {
 			service.create(ev);
 
 			// then
-		}).isInstanceOf(PastDateException.class)
+		}).isInstanceOf(DateException.class)
 		.hasMessage("A data do evento deve ser igual ou maior que a de hoje");
 	}
 }

@@ -1,8 +1,8 @@
 package br.com.tasima.ida.daprazuar.eventman.controllers;
 
 import java.util.List;
-import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,11 +20,8 @@ import br.com.tasima.ida.daprazuar.eventman.services.EventoService;
 @RestController
 public class EventoController {
 
+	@Autowired
 	private EventoService service;
-
-	public EventoController() {
-		service = new EventoService();
-	}
 
 	@RequestMapping(method = RequestMethod.GET, path = "/eventos")
 	public ResponseEntity<List<Evento>> GetAll() {
@@ -32,7 +29,7 @@ public class EventoController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, path = "/evento/{id}")
-	public ResponseEntity<Evento> GetById(@PathVariable("id") int id) {
+	public ResponseEntity<Evento> GetById(@PathVariable("id") long id) {
 		try {
 			Evento ev = service.get(id);
 			return ResponseEntity.ok(ev);
@@ -59,24 +56,19 @@ public class EventoController {
     }
     
     @RequestMapping(method=RequestMethod.POST, path="/evento")
-    public HttpStatus Create(/*@RequestParam Map<String,String> allRequestParams*/@RequestBody Evento ev) {
-    	
-    	System.out.println(ev.toString());
-    	
+    public ResponseEntity<Evento> Create(@RequestBody Evento ev) {
     	try {
-    		service.create(ev);
-    		return HttpStatus.OK;
+    		Evento created = service.create(ev);
+    		return ResponseEntity.ok(created);
     	} catch (InvalidParameterException e) {
-    		System.out.println(e.getMessage()+"Aquiii");
-			return HttpStatus.BAD_REQUEST;
+			return ResponseEntity.badRequest().build();
 		} catch (Exception e) {
-			System.out.println(e.getMessage()+"aQUIII");
-			return HttpStatus.INTERNAL_SERVER_ERROR;
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
 	@RequestMapping(method = RequestMethod.PUT, path = "/evento/{id}")
-	public ResponseEntity<Evento> Update(@PathVariable("id") int id, @RequestBody Evento ev) {
+	public ResponseEntity<Evento> Update(@PathVariable("id") long id, @RequestBody Evento ev) {
 		try {
 			Evento updated = service.update(id, ev);
 			return ResponseEntity.ok(updated);
