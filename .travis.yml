@@ -4,9 +4,3 @@ jdk:
 
 before_install:
 - chmod +x gradlew
-
-addons:
-  sonarcloud:
-    organization: "tasima-uniritter-github"
-:
-  - sonar-scanner
